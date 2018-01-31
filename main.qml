@@ -3,6 +3,8 @@ import QtQuick.Window 2.2
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 
+import SceneGraphRendering 1.0
+
 Window {
     visible: true
     width: 640
@@ -111,5 +113,13 @@ Window {
         anchors.left: parent.left
         anchors.bottom: buttons.top
         anchors.bottomMargin: 10
+    }
+
+    Renderer{
+        id: cubemapRender
+        anchors.top : parent.top
+        anchors.bottom: images.top
+        anchors.left: parent.left
+        anchors.right: parent.right
     }
 }
