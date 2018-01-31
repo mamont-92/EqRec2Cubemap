@@ -148,5 +148,8 @@ Window {
         anchors.bottom: images.top
         anchors.left: parent.left
         anchors.right: parent.right
+
+
+
     }
 }

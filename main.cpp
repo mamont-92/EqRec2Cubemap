@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
+    qRegisterMetaType<CubemapQuickRender::Scheme>("Renderer::Scheme");
     qmlRegisterType<CubemapQuickRender>("SceneGraphRendering", 1, 0, "Renderer");
 
     QQmlApplicationEngine engine;

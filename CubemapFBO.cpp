@@ -4,9 +4,26 @@
 #include <CubemapFboRender.h>
 
 //-------------------------------------------------------------------------------
+void CubemapQuickRender::setScheme(Scheme _scheme)
+{
+    Scheme oldScheme = m_scheme;
+    m_scheme = _scheme;
+    if(m_scheme != oldScheme)
+        emit schemeChanged(m_scheme);
+}
+
+CubemapQuickRender::Scheme CubemapQuickRender::scheme() const
+{
+    return m_scheme;
+}
 
 CubemapQuickRender::CubemapQuickRender() : QQuickFramebufferObject(),
-    m_render(nullptr) {}
+    m_render(nullptr)
+{
+    connect(this, &CubemapQuickRender::schemeChanged, [this](Scheme _scheme){
+       qDebug() << "scheme changed";
+    });
+}
 
 CubemapQuickRender::Renderer * CubemapQuickRender::createRenderer() const
 {
