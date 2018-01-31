@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>media/CubemapCrossHort.png</file>
+        <file>media/CubemapCrossVert.png</file>
+        <file>media/CubemapLinearHor.png</file>
+        <file>media/CubemapLinearVert.png</file>
+    </qresource>
+</RCC>
