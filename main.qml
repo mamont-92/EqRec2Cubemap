@@ -2,6 +2,7 @@ import QtQuick 2.9
 import QtQuick.Window 2.2
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
+import Qt.labs.platform 1.0
 
 import SceneGraphRendering 1.0
 
@@ -10,6 +11,7 @@ Window {
     width: 640
     height: 480
     title: qsTr("Hello World")
+    property var graphicFileExtensions: ["Graphic files (*.png *.jpg *.bmp)"]
 
     Item{
         id: buttons
@@ -32,14 +34,13 @@ Window {
             width: parent.width / 2 - anchors.margins*2
 
             onClicked: {
-                console.log("Open btn clicked")
+                openDialog.open()
             }
         }
 
         Button{
             id: saveAsButton
             text: qsTr("Save as...")
-
 
             anchors.left: openButton.right
             anchors.top: parent.top
@@ -48,7 +49,7 @@ Window {
             anchors.margins: 1
 
             onClicked: {
-                console.log("Save as btn clicked")
+                saveDialog.open()
             }
         }
     }
@@ -113,6 +114,32 @@ Window {
         anchors.left: parent.left
         anchors.bottom: buttons.top
         anchors.bottomMargin: 10
+    }
+
+    function extractPathFromURL(url){
+        var path = url.toString();
+        path = path.replace(/^(file:\/{3})|(qrc:\/{2})|(http:\/{2})/,"");
+        return path;
+    }
+
+    FileDialog {
+        id: openDialog
+        fileMode: FileDialog.OpenFile
+        nameFilters: graphicFileExtensions
+        folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
+        onAccepted: {
+            cubemapRender.loadFromFileEquRectMap( extractPathFromURL(file) )
+        }
+    }
+
+    FileDialog {
+        id: saveDialog
+        fileMode: FileDialog.SaveFile
+        nameFilters: graphicFileExtensions
+        folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
+        onAccepted:  {
+            cubemapRender.saveToFileCubemap( extractPathFromURL(file) )
+        }
     }
 
     Renderer{
