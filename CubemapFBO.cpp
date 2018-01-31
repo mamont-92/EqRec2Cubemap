@@ -18,7 +18,8 @@ CubemapQuickRender::Scheme CubemapQuickRender::scheme() const
 }
 
 CubemapQuickRender::CubemapQuickRender() : QQuickFramebufferObject(),
-    m_render(nullptr)
+    m_render(nullptr),
+    m_scheme(Scheme::VerticalLine)
 {
     connect(this, &CubemapQuickRender::schemeChanged, [this](Scheme _scheme){
        qDebug() << "scheme changed";

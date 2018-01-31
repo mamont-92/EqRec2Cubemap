@@ -63,25 +63,25 @@ Window {
                 id: imageList
 
                 ListElement{
-                    number: 0
+                    scheme: Renderer.VerticalCross
                     text: "vertical cross"
                     path: "media/CubemapCrossVert.png"
                 }
 
                 ListElement{
-                    number: 1
+                    scheme: Renderer.HorizontalCross
                     text: "horizontal cross"
                     path: "media/CubemapCrossHort.png"
                 }
 
                 ListElement{
-                    number: 2
+                    scheme: Renderer.VerticalLine
                     text: "vertical line"
-                    path: "media/CubemapLinearHor.png"
+                    path: "media/CubemapLinearVert.png"
                 }
 
                 ListElement{
-                    number: 3
+                    scheme: Renderer.HorizontalLine
                     text: "horizontal line"
                     path: "media/CubemapLinearHor.png"
                 }
@@ -89,8 +89,8 @@ Window {
 
             delegate:
                 Rectangle{
-                    border.color: "gray"
-                    border.width: 1
+                    border.color: (cubemapRender.scheme == model.scheme) ? "blue" : "gray"
+                    border.width: (cubemapRender.scheme == model.scheme) ? 2 : 1
                     height: 64
                     width: 64
 
@@ -100,9 +100,15 @@ Window {
 
                     Image {
                         anchors.fill: parent
-                        anchors.margins: 1
+                        anchors.margins: 2
                         source: model.path
                         fillMode: Image.PreserveAspectFit
+                        MouseArea{
+                            anchors.fill: parent
+                            onClicked: {
+                                cubemapRender.scheme = model.scheme
+                            }
+                        }
                     }
             }
 
@@ -148,8 +154,5 @@ Window {
         anchors.bottom: images.top
         anchors.left: parent.left
         anchors.right: parent.right
-
-
-
     }
 }
