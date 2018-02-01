@@ -2,8 +2,12 @@
 #include <QOpenGLFramebufferObjectFormat>
 #include <QMatrix4x4>
 #include <QDebug>
+#include <QImage>
 
-CubemapFboRender::CubemapFboRender() : QQuickFramebufferObject::Renderer(), QOpenGLFunctions()
+const int textureUint = 0;
+
+CubemapFboRender::CubemapFboRender(QObject *parent) : QObject(parent), QQuickFramebufferObject::Renderer(), QOpenGLFunctions(),
+    m_equrectangleMap(QOpenGLTexture::Target2D)
 {
     initializeOpenGLFunctions();
     m_shaderProgram.addCacheableShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/cubemapUnwrapFromEquRectmap.vert");
@@ -29,11 +33,14 @@ void CubemapFboRender::render() {
 
     QMatrix4x4 projModelViewMat;
 
-    m_shaderProgram.bind();
-    m_shaderProgram.setUniformValue(m_matrixUniformId, projModelViewMat);
-    //m_shaderProgram.setUniformValue(m_textureSamplerId, 0);
-    drawGeometry();
-    m_shaderProgram.release();
+    if(m_equrectangleMap.isCreated()){
+        m_shaderProgram.bind();
+        m_shaderProgram.setUniformValue(m_matrixUniformId, projModelViewMat);
+        m_equrectangleMap.bind(textureUint);
+        m_shaderProgram.setUniformValue(m_textureSamplerId, textureUint);
+        drawGeometry();
+        m_shaderProgram.release();
+    }
 }
 
 QOpenGLFramebufferObject * CubemapFboRender::createFramebufferObject(const QSize &size) {
@@ -80,3 +87,17 @@ void CubemapFboRender::drawGeometry()
     m_shaderProgram.disableAttributeArray(m_vertexAttribId);
     m_shaderProgram.disableAttributeArray(m_cubemapCoordsAttribId);
 }
+
+void CubemapFboRender::setImage(QImage img)
+{
+    qDebug() << "set image to texture" << img;
+    m_equrectangleMap.setData(img, QOpenGLTexture::DontGenerateMipMaps);
+    m_equrectangleMap.setMagnificationFilter(QOpenGLTexture::Nearest);
+    m_equrectangleMap.setMinificationFilter(QOpenGLTexture::Nearest);
+    update();
+}
+
+/*void CubemapFboRender::setScheme(QImage)
+{
+    qDebug() << "new scheme in render";
+}*/

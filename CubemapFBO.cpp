@@ -2,6 +2,7 @@
 #include <QOpenGLFramebufferObjectFormat>
 #include <QDebug>
 #include <CubemapFboRender.h>
+//#include <QImage>
 
 //-------------------------------------------------------------------------------
 void CubemapQuickRender::setScheme(Scheme _scheme)
@@ -18,7 +19,6 @@ CubemapQuickRender::Scheme CubemapQuickRender::scheme() const
 }
 
 CubemapQuickRender::CubemapQuickRender() : QQuickFramebufferObject(),
-    m_render(nullptr),
     m_scheme(Scheme::VerticalLine)
 {
     connect(this, &CubemapQuickRender::schemeChanged, [this](Scheme _scheme){
@@ -28,10 +28,12 @@ CubemapQuickRender::CubemapQuickRender() : QQuickFramebufferObject(),
 
 CubemapQuickRender::Renderer * CubemapQuickRender::createRenderer() const
 {
-    if(m_render)
-        delete m_render;
-    m_render = new CubemapFboRender;
-    return m_render;
+    CubemapFboRender * render = new CubemapFboRender;
+
+    connect(this, &CubemapQuickRender::imageLoaded, render, &CubemapFboRender::setImage, Qt::QueuedConnection);
+    //connect(this, &CubemapQuickRender::schemeChanged, render, &CubemapFboRender::setScheme, Qt::QueuedConnection);
+
+    return render;
 }
 
 void CubemapQuickRender::saveToFileCubemap(QString fileName)
@@ -42,4 +44,7 @@ void CubemapQuickRender::saveToFileCubemap(QString fileName)
 void CubemapQuickRender::loadFromFileEquRectMap(QString fileName)
 {
     qDebug() << "load from file" << fileName;
+    QImage img(fileName);
+    emit imageLoaded(img);
+    update(); //enforce render updating and process it's queued signals
 }

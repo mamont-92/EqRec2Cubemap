@@ -2,6 +2,8 @@
 #define CUBEMAPFBO_H
 
 #include <QtQuick/QQuickFramebufferObject>
+#include "cubemapscheme.h"
+#include <QImage>
 
 class CubemapFboRender;
 
@@ -29,10 +31,9 @@ public:
 
 signals:
     void schemeChanged(Scheme);
-
+    void imageLoaded(QImage);
 
 private:
-    mutable CubemapFboRender * m_render;
     Scheme m_scheme;
 };
 
