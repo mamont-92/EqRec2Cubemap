@@ -5,5 +5,7 @@
         <file>media/CubemapCrossVert.png</file>
         <file>media/CubemapLinearHor.png</file>
         <file>media/CubemapLinearVert.png</file>
+        <file>shaders/cubemapUnwrapFromEquRectmap.frag</file>
+        <file>shaders/cubemapUnwrapFromEquRectmap.vert</file>
     </qresource>
 </RCC>
