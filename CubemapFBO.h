@@ -29,12 +29,16 @@ public:
     Q_INVOKABLE void saveToFileCubemap(QString fileName);
     Q_INVOKABLE void loadFromFileEquRectMap(QString fileName);
 
+public slots:
+    void cubemapReady(QImage);
+
 signals:
     void schemeChanged(Scheme);
     void imageLoaded(QImage);
 
 private:
     Scheme m_scheme;
+    QImage m_cubemapImage;
 };
 
 #endif // CUBEMAPFBO_H

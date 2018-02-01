@@ -24,8 +24,8 @@ public:
     void render();
     QOpenGLFramebufferObject *createFramebufferObject(const QSize &size);
 
-/*signals:
-    void imageReady(QImage);*/
+signals:
+    void imageReady(QImage);
 
 public slots:
     void setImage(QImage img);

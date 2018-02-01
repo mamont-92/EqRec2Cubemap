@@ -41,6 +41,9 @@ void CubemapFboRender::render() {
         drawGeometry();
         m_shaderProgram.release();
     }
+
+    QImage img = framebufferObject()->toImage(false);
+    emit imageReady(img);
 }
 
 QOpenGLFramebufferObject * CubemapFboRender::createFramebufferObject(const QSize &size) {
@@ -91,6 +94,7 @@ void CubemapFboRender::drawGeometry()
 void CubemapFboRender::setImage(QImage img)
 {
     qDebug() << "set image to texture" << img;
+    m_equrectangleMap.destroy();
     m_equrectangleMap.setData(img, QOpenGLTexture::DontGenerateMipMaps);
     m_equrectangleMap.setMagnificationFilter(QOpenGLTexture::Nearest);
     m_equrectangleMap.setMinificationFilter(QOpenGLTexture::Nearest);

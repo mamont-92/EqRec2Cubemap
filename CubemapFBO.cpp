@@ -31,14 +31,22 @@ CubemapQuickRender::Renderer * CubemapQuickRender::createRenderer() const
     CubemapFboRender * render = new CubemapFboRender;
 
     connect(this, &CubemapQuickRender::imageLoaded, render, &CubemapFboRender::setImage, Qt::QueuedConnection);
+    connect(render, &CubemapFboRender::imageReady, this, &CubemapQuickRender::cubemapReady, Qt::QueuedConnection);
     //connect(this, &CubemapQuickRender::schemeChanged, render, &CubemapFboRender::setScheme, Qt::QueuedConnection);
 
     return render;
 }
 
+void CubemapQuickRender::cubemapReady(QImage img)
+{
+    m_cubemapImage = img;
+}
+
 void CubemapQuickRender::saveToFileCubemap(QString fileName)
 {
     qDebug() << "save to file" << fileName;
+    if(!m_cubemapImage.isNull())
+        m_cubemapImage.save(fileName);
 }
 
 void CubemapQuickRender::loadFromFileEquRectMap(QString fileName)
