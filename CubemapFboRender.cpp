@@ -56,13 +56,13 @@ QOpenGLFramebufferObject * CubemapFboRender::createFramebufferObject(const QSize
 
 void CubemapFboRender::initDataBuffer()
 {
-    m_schemeData << SchemeElement{QVector3D{-1.0f,-1.0f, 0.0f}, QVector3D{-1.0f,-1.0f, 1.0f}};
+    m_schemeData << SchemeElement{QVector3D{-1.0f,-1.0f, 0.0f}, QVector3D{-1.0f, 1.0f,-1.0f}};
     m_schemeData << SchemeElement{QVector3D{-1.0f, 1.0f, 0.0f}, QVector3D{-1.0f, 1.0f, 1.0f}};
     m_schemeData << SchemeElement{QVector3D{ 1.0f, 1.0f, 0.0f}, QVector3D{ 1.0f, 1.0f, 1.0f}};
 
-    m_schemeData << SchemeElement{QVector3D{-1.0f,-1.0f, 0.0f}, QVector3D{-1.0f,-1.0f, 1.0f}};
+    m_schemeData << SchemeElement{QVector3D{-1.0f,-1.0f, 0.0f}, QVector3D{-1.0f, 1.0f, -1.0f}};
     m_schemeData << SchemeElement{QVector3D{ 1.0f, 1.0f, 0.0f}, QVector3D{ 1.0f, 1.0f, 1.0f}};
-    m_schemeData << SchemeElement{QVector3D{ 1.0f,-1.0f, 0.0f}, QVector3D{ 1.0f,-1.0f, 1.0f}};
+    m_schemeData << SchemeElement{QVector3D{ 1.0f,-1.0f, 0.0f}, QVector3D{ 1.0f, 1.0f, -1.0f}};
 
     /*m_schemeData << SchemeElement{QVector3D{-1.0f,-1.0f, 1.0f}, QVector3D{-1.0f,-1.0f, 1.0f}};
     m_schemeData << SchemeElement{QVector3D{-1.0f, 1.0f, 1.0f}, QVector3D{-1.0f, 1.0f, 1.0f}};
