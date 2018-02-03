@@ -14,7 +14,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp \
     CubemapFBORender.cpp \
-    CubemapQuickRender.cpp
+    CubemapQuickRender.cpp \
+    MapsImageProvider.cpp
 
 RESOURCES += qml.qrc
 
@@ -31,4 +32,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     CubemapQuickRender.h \
-    CubemapFBORender.h
+    CubemapFBORender.h \
+    MapsImageProvider.h

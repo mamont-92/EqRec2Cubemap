@@ -9,6 +9,7 @@ const float floatEpsilon = 0.00001f;
 CubemapQuickRender::CubemapQuickRender() : QQuickFramebufferObject(),
     m_scheme(Scheme::VerticalCross)
 {
+    qDebug() << "<<ololol" << isTextureProvider();
 }
 
 CubemapQuickRender::Renderer * CubemapQuickRender::createRenderer() const

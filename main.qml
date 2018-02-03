@@ -173,5 +173,40 @@ Window {
         anchors.bottom: images.top
         anchors.left: parent.left
         anchors.right: parent.right
+        visible: false
+
+        textureFollowsItemSize: false
+    }
+
+    Item{
+        id: mapViews
+
+        anchors.top : parent.top
+        anchors.bottom: images.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+
+        ImageViewer{
+            id: sourceView
+            anchors.top : parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: parent.height / 2
+
+            imageProvider: "maps"
+            imageName: "empty"
+        }
+
+        ImageViewer{
+            id: cubemapView
+            anchors.top : sourceView.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+
+            imageProvider: "maps"
+            imageName: "empty"
+        }
+
     }
 }

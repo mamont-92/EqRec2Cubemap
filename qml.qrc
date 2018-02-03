@@ -8,5 +8,6 @@
         <file>shaders/cubemapUnwrapFromEquRectmap.frag</file>
         <file>shaders/cubemapUnwrapFromEquRectmap.vert</file>
         <file>NumParameter.qml</file>
+        <file>ImageViewer.qml</file>
     </qresource>
 </RCC>
