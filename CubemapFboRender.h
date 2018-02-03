@@ -11,7 +11,7 @@
 #include <QImage>
 
 
-struct SchemeElement
+struct SchemeDataElement
 {
     QVector3D screenPos, cubemapCoords;
 };
@@ -39,7 +39,7 @@ private:
     int m_matrixUniformId;
     int m_textureSamplerId;
 
-    QVector<SchemeElement> m_schemeData;
+    QVector<SchemeDataElement> m_schemeData;
     QOpenGLTexture m_equrectangleMap;
 };
 

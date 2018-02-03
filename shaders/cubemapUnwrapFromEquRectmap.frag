@@ -7,11 +7,11 @@ vec2 coordsInEqurectMap(vec3 _cubemapCoords)
     const float pi_mult_2 = pi*2;
 
     vec3 normCubeCoords = normalize(_cubemapCoords);
-    float lon = atan(normCubeCoords.x, normCubeCoords.z);
+    float lon = atan(normCubeCoords.z, normCubeCoords.x);
     float lat = acos(normCubeCoords.y);
 
-    float lon_norm = (lon/pi_mult_2);
-    float lat_norm = (lat/pi);
+    float lon_norm = lon/pi_mult_2;
+    float lat_norm = lat/pi;
 
     return vec2(lon_norm, lat_norm);
 }
