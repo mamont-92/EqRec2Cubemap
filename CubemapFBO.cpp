@@ -2,21 +2,9 @@
 #include <QOpenGLFramebufferObjectFormat>
 #include <QDebug>
 #include <CubemapFboRender.h>
-//#include <QImage>
 
-//-------------------------------------------------------------------------------
-void CubemapQuickRender::setScheme(Scheme _scheme)
-{
-    Scheme oldScheme = m_scheme;
-    m_scheme = _scheme;
-    if(m_scheme != oldScheme)
-        emit schemeChanged(m_scheme);
-}
+const float floatEpsilon = 0.00001;
 
-CubemapQuickRender::Scheme CubemapQuickRender::scheme() const
-{
-    return m_scheme;
-}
 
 CubemapQuickRender::CubemapQuickRender() : QQuickFramebufferObject(),
     m_scheme(Scheme::VerticalLine)
@@ -56,3 +44,36 @@ void CubemapQuickRender::loadFromFileEquRectMap(QString fileName)
     emit imageLoaded(img);
     update(); //enforce render updating and process it's queued signals
 }
+
+
+
+void CubemapQuickRender::setScheme(Scheme _scheme)
+{
+    if(m_scheme != _scheme){
+        m_scheme = _scheme;
+        emit schemeChanged(m_scheme);
+    }
+}
+
+void CubemapQuickRender::setYRotation(float _yRotation)
+{
+    if(fabs(m_yRotation - _yRotation) > floatEpsilon){
+        qDebug() << "set rotation" << _yRotation;
+        m_yRotation = _yRotation; //% 360.0;
+        emit yRotationChanged(m_yRotation);
+    }
+}
+
+CubemapQuickRender::Scheme CubemapQuickRender::scheme() const
+{
+    return m_scheme;
+}
+
+float CubemapQuickRender::yRotation() const
+{
+    return m_yRotation;
+}
+
+
+
+

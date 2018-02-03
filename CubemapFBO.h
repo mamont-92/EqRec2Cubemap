@@ -11,6 +11,7 @@ class CubemapQuickRender : public QQuickFramebufferObject
 {
     Q_OBJECT
     Q_PROPERTY(Scheme scheme READ scheme WRITE setScheme NOTIFY schemeChanged)
+    Q_PROPERTY(float yRotation READ yRotation WRITE setYRotation NOTIFY yRotationChanged)
 public:
     enum class Scheme{
         VerticalCross,
@@ -20,11 +21,14 @@ public:
     };
     Q_ENUMS(Scheme)
 
-    void setScheme(Scheme _scheme);
-    Scheme scheme() const;
-
     CubemapQuickRender();
     Renderer *createRenderer() const;
+
+    Scheme scheme() const;
+    float yRotation() const;
+
+    void setScheme(Scheme _scheme);
+    void setYRotation(float _yRotation);
 
     Q_INVOKABLE void saveToFileCubemap(QString fileName);
     Q_INVOKABLE void loadFromFileEquRectMap(QString fileName);
@@ -35,10 +39,12 @@ public slots:
 signals:
     void schemeChanged(Scheme);
     void imageLoaded(QImage);
+    void yRotationChanged(float);
 
 private:
     Scheme m_scheme;
     QImage m_cubemapImage;
+    float m_yRotation;
 };
 
 #endif // CUBEMAPFBO_H

@@ -7,5 +7,6 @@
         <file>media/CubemapLinearVert.png</file>
         <file>shaders/cubemapUnwrapFromEquRectmap.frag</file>
         <file>shaders/cubemapUnwrapFromEquRectmap.vert</file>
+        <file>NumParameter.qml</file>
     </qresource>
 </RCC>

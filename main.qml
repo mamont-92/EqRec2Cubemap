@@ -54,6 +54,25 @@ Window {
         }
     }
 
+    NumParameter{
+        id: yRotationParameter
+
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        anchors.right: buttons.left
+        anchors.margins: 1
+
+        minValue: 0.0
+        maxValue: 360.0
+
+        height: buttons.height
+
+        onValueModified: {
+            cubemapRender.yRotation = value;
+        }
+    }
+
+
     RowLayout{
         id: images
 
