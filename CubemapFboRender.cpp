@@ -4,10 +4,13 @@
 #include <QDebug>
 #include <QImage>
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 const int textureUint = 0;
 
 CubemapFboRender::CubemapFboRender(QObject *parent) : QObject(parent), QQuickFramebufferObject::Renderer(), QOpenGLFunctions(),
-    m_equrectangleMap(QOpenGLTexture::Target2D)
+    m_equrectangleMap(QOpenGLTexture::Target2D), m_yRotation(0.0f)
 {
     initializeOpenGLFunctions();
     m_shaderProgram.addCacheableShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/cubemapUnwrapFromEquRectmap.vert");
@@ -20,7 +23,7 @@ CubemapFboRender::CubemapFboRender(QObject *parent) : QObject(parent), QQuickFra
     m_vertexAttribId = m_shaderProgram.attributeLocation("vertex");
     m_cubemapCoordsAttribId = m_shaderProgram.attributeLocation("cubemapCoords");
     m_textureSamplerId = m_shaderProgram.uniformLocation("equrectangleTexture");
-
+    m_yRotationUniformId = m_shaderProgram.uniformLocation("yRotation");
     initDataBuffer();
 }
 
@@ -39,6 +42,8 @@ void CubemapFboRender::render() {
         m_shaderProgram.setUniformValue(m_matrixUniformId, projModelViewMat);
         m_equrectangleMap.bind(textureUint);
         m_shaderProgram.setUniformValue(m_textureSamplerId, textureUint);
+        float yRotRad = m_yRotation * (M_PI / 180.0);
+        m_shaderProgram.setUniformValue(m_yRotationUniformId, yRotRad);
         drawGeometry();
         m_shaderProgram.release();
     }
@@ -202,6 +207,12 @@ void CubemapFboRender::setImage(QImage img)
     m_equrectangleMap.setMagnificationFilter(QOpenGLTexture::Linear);
     m_equrectangleMap.setMinificationFilter(QOpenGLTexture::Linear);
     update();
+}
+
+void CubemapFboRender::setYRotation(float _yRotation)
+{
+    qDebug() << "set y rotation" << _yRotation;
+    m_yRotation = _yRotation;
 }
 
 /*void CubemapFboRender::setScheme(QImage)

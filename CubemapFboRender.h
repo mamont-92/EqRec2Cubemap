@@ -29,6 +29,7 @@ signals:
 
 public slots:
     void setImage(QImage img);
+    void setYRotation(float _yRotation);
     //void setScheme(QImage);
 
 private:
@@ -38,6 +39,9 @@ private:
     int m_vertexAttribId, m_cubemapCoordsAttribId;
     int m_matrixUniformId;
     int m_textureSamplerId;
+    int m_yRotationUniformId;
+
+    float m_yRotation;
 
     QVector<SchemeDataElement> m_schemeData;
     QOpenGLTexture m_equrectangleMap;

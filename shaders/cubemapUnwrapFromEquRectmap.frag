@@ -1,4 +1,5 @@
 uniform sampler2D equrectangleTexture;
+uniform float yRotation;
 varying vec3 var_cubemapCoords;
 
 vec2 coordsInEqurectMap(vec3 _cubemapCoords)
@@ -10,7 +11,7 @@ vec2 coordsInEqurectMap(vec3 _cubemapCoords)
     float lon = atan(normCubeCoords.z, normCubeCoords.x);
     float lat = acos(normCubeCoords.y);
 
-    float lon_norm = lon/pi_mult_2;
+    float lon_norm = (lon+yRotation)/pi_mult_2;
     float lat_norm = lat/pi;
 
     return vec2(lon_norm, lat_norm);

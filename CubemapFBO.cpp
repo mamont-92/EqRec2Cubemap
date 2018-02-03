@@ -19,6 +19,7 @@ CubemapQuickRender::Renderer * CubemapQuickRender::createRenderer() const
     CubemapFboRender * render = new CubemapFboRender;
 
     connect(this, &CubemapQuickRender::imageLoaded, render, &CubemapFboRender::setImage, Qt::QueuedConnection);
+    connect(this, &CubemapQuickRender::yRotationChanged, render, &CubemapFboRender::setYRotation, Qt::QueuedConnection);
     connect(render, &CubemapFboRender::imageReady, this, &CubemapQuickRender::cubemapReady, Qt::QueuedConnection);
     //connect(this, &CubemapQuickRender::schemeChanged, render, &CubemapFboRender::setScheme, Qt::QueuedConnection);
 
@@ -61,6 +62,7 @@ void CubemapQuickRender::setYRotation(float _yRotation)
         qDebug() << "set rotation" << _yRotation;
         m_yRotation = _yRotation; //% 360.0;
         emit yRotationChanged(m_yRotation);
+        update();
     }
 }
 
