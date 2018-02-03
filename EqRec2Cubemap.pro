@@ -31,5 +31,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     CubemapFBO.h \
-    CubemapFboRender.h \
-    cubemapscheme.h
+    CubemapFboRender.h

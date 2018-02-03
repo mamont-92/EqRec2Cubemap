@@ -9,9 +9,6 @@ const float floatEpsilon = 0.00001;
 CubemapQuickRender::CubemapQuickRender() : QQuickFramebufferObject(),
     m_scheme(Scheme::VerticalLine)
 {
-    connect(this, &CubemapQuickRender::schemeChanged, [this](Scheme _scheme){
-       qDebug() << "scheme changed";
-    });
 }
 
 CubemapQuickRender::Renderer * CubemapQuickRender::createRenderer() const
@@ -20,8 +17,8 @@ CubemapQuickRender::Renderer * CubemapQuickRender::createRenderer() const
 
     connect(this, &CubemapQuickRender::imageLoaded, render, &CubemapFboRender::setImage, Qt::QueuedConnection);
     connect(this, &CubemapQuickRender::yRotationChanged, render, &CubemapFboRender::setYRotation, Qt::QueuedConnection);
+    connect(this, &CubemapQuickRender::schemeChanged, render, &CubemapFboRender::setScheme, Qt::QueuedConnection);
     connect(render, &CubemapFboRender::imageReady, this, &CubemapQuickRender::cubemapReady, Qt::QueuedConnection);
-    //connect(this, &CubemapQuickRender::schemeChanged, render, &CubemapFboRender::setScheme, Qt::QueuedConnection);
 
     return render;
 }
@@ -48,18 +45,18 @@ void CubemapQuickRender::loadFromFileEquRectMap(QString fileName)
 
 
 
-void CubemapQuickRender::setScheme(Scheme _scheme)
+void CubemapQuickRender::setScheme(CubemapQuickRender::Scheme _scheme)
 {
     if(m_scheme != _scheme){
         m_scheme = _scheme;
         emit schemeChanged(m_scheme);
+        update();
     }
 }
 
 void CubemapQuickRender::setYRotation(float _yRotation)
 {
     if(fabs(m_yRotation - _yRotation) > floatEpsilon){
-        qDebug() << "set rotation" << _yRotation;
         m_yRotation = _yRotation; //% 360.0;
         emit yRotationChanged(m_yRotation);
         update();

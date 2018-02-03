@@ -3,11 +3,14 @@
 #include <QMatrix4x4>
 #include <QDebug>
 #include <QImage>
+#include "CubemapFBO.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
 
 const int textureUint = 0;
+
+//using Scheme = CubemapQuickRender::Scheme;
 
 CubemapFboRender::CubemapFboRender(QObject *parent) : QObject(parent), QQuickFramebufferObject::Renderer(), QOpenGLFunctions(),
     m_equrectangleMap(QOpenGLTexture::Target2D), m_yRotation(0.0f)
@@ -215,7 +218,7 @@ void CubemapFboRender::setYRotation(float _yRotation)
     m_yRotation = _yRotation;
 }
 
-/*void CubemapFboRender::setScheme(QImage)
+void CubemapFboRender::setScheme(CubemapQuickRender::Scheme _scheme)
 {
-    qDebug() << "new scheme in render";
-}*/
+    qDebug() << "set scheme" << (int)_scheme;
+}

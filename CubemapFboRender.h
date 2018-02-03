@@ -10,6 +10,7 @@
 #include <QOpenGLTexture>
 #include <QImage>
 
+#include "CubemapFBO.h"
 
 struct SchemeDataElement
 {
@@ -30,7 +31,7 @@ signals:
 public slots:
     void setImage(QImage img);
     void setYRotation(float _yRotation);
-    //void setScheme(QImage);
+    void setScheme(CubemapQuickRender::Scheme);
 
 private:
     void initDataBuffer();

@@ -2,7 +2,6 @@
 #define CUBEMAPFBO_H
 
 #include <QtQuick/QQuickFramebufferObject>
-#include "cubemapscheme.h"
 #include <QImage>
 
 class CubemapFboRender;
@@ -37,7 +36,7 @@ public slots:
     void cubemapReady(QImage);
 
 signals:
-    void schemeChanged(Scheme);
+    void schemeChanged(CubemapQuickRender::Scheme);
     void imageLoaded(QImage);
     void yRotationChanged(float);
 
