@@ -1,9 +1,9 @@
-#include "CubemapFBO.h"
+#include "CubemapQuickRender.h"
 #include <QOpenGLFramebufferObjectFormat>
 #include <QDebug>
-#include <CubemapFboRender.h>
+#include <CubemapFBORender.h>
 
-const float floatEpsilon = 0.00001;
+const float floatEpsilon = 0.00001f;
 
 
 CubemapQuickRender::CubemapQuickRender() : QQuickFramebufferObject(),
@@ -13,12 +13,12 @@ CubemapQuickRender::CubemapQuickRender() : QQuickFramebufferObject(),
 
 CubemapQuickRender::Renderer * CubemapQuickRender::createRenderer() const
 {
-    CubemapFboRender * render = new CubemapFboRender;
+    CubemapFBORender * render = new CubemapFBORender;
 
-    connect(this, &CubemapQuickRender::imageLoaded, render, &CubemapFboRender::setImage, Qt::QueuedConnection);
-    connect(this, &CubemapQuickRender::yRotationChanged, render, &CubemapFboRender::setYRotation, Qt::QueuedConnection);
-    connect(this, &CubemapQuickRender::schemeChanged, render, &CubemapFboRender::setScheme, Qt::QueuedConnection);
-    connect(render, &CubemapFboRender::imageReady, this, &CubemapQuickRender::cubemapReady, Qt::QueuedConnection);
+    connect(this, &CubemapQuickRender::imageLoaded, render, &CubemapFBORender::setImage, Qt::QueuedConnection);
+    connect(this, &CubemapQuickRender::yRotationChanged, render, &CubemapFBORender::setYRotation, Qt::QueuedConnection);
+    connect(this, &CubemapQuickRender::schemeChanged, render, &CubemapFBORender::setScheme, Qt::QueuedConnection);
+    connect(render, &CubemapFBORender::imageReady, this, &CubemapQuickRender::cubemapReady, Qt::QueuedConnection);
 
     return render;
 }

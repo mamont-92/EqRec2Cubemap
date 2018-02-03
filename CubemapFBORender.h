@@ -10,18 +10,18 @@
 #include <QOpenGLTexture>
 #include <QImage>
 
-#include "CubemapFBO.h"
+#include "CubemapQuickRender.h"
 
 struct SchemeDataElement
 {
     QVector3D screenPos, cubemapCoords;
 };
 
-class CubemapFboRender : public QObject, public QQuickFramebufferObject::Renderer, protected QOpenGLFunctions
+class CubemapFBORender : public QObject, public QQuickFramebufferObject::Renderer, protected QOpenGLFunctions
 {
     Q_OBJECT
 public:
-    CubemapFboRender(QObject *parent=Q_NULLPTR);
+    CubemapFBORender(QObject *parent=Q_NULLPTR);
     void render();
     QOpenGLFramebufferObject *createFramebufferObject(const QSize &size);
 

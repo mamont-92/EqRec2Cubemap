@@ -1,6 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include "CubemapFBO.h"
+#include "CubemapQuickRender.h"
 
 int main(int argc, char *argv[])
 {

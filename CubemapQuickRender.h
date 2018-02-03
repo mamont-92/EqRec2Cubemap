@@ -1,5 +1,5 @@
-#ifndef CUBEMAPFBO_H
-#define CUBEMAPFBO_H
+#ifndef CUBEMAPQUICKRENDER_H
+#define CUBEMAPQUICKRENDER_H
 
 #include <QtQuick/QQuickFramebufferObject>
 #include <QImage>
@@ -46,4 +46,4 @@ private:
     float m_yRotation;
 };
 
-#endif // CUBEMAPFBO_H
+#endif // CUBEMAPQUICKRENDER_H

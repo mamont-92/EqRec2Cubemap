@@ -1,9 +1,9 @@
-#include "CubemapFboRender.h"
+#include "CubemapFBORender.h"
 #include <QOpenGLFramebufferObjectFormat>
 #include <QMatrix4x4>
 #include <QDebug>
 #include <QImage>
-#include "CubemapFBO.h"
+#include "CubemapQuickRender.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -12,7 +12,7 @@ const int textureUint = 0;
 
 //using Scheme = CubemapQuickRender::Scheme;
 
-CubemapFboRender::CubemapFboRender(QObject *parent) : QObject(parent), QQuickFramebufferObject::Renderer(), QOpenGLFunctions(),
+CubemapFBORender::CubemapFBORender(QObject *parent) : QObject(parent), QQuickFramebufferObject::Renderer(), QOpenGLFunctions(),
     m_equrectangleMap(QOpenGLTexture::Target2D), m_yRotation(0.0f)
 {
     initializeOpenGLFunctions();
@@ -30,7 +30,7 @@ CubemapFboRender::CubemapFboRender(QObject *parent) : QObject(parent), QQuickFra
     initDataBuffer();
 }
 
-void CubemapFboRender::render() {
+void CubemapFBORender::render() {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     glDepthMask(false);
@@ -55,7 +55,7 @@ void CubemapFboRender::render() {
     emit imageReady(img);
 }
 
-QOpenGLFramebufferObject * CubemapFboRender::createFramebufferObject(const QSize &size) {
+QOpenGLFramebufferObject * CubemapFBORender::createFramebufferObject(const QSize &size) {
     QOpenGLFramebufferObjectFormat format;
     format.setAttachment(QOpenGLFramebufferObject::CombinedDepthStencil);
     format.setSamples(4);
@@ -63,7 +63,7 @@ QOpenGLFramebufferObject * CubemapFboRender::createFramebufferObject(const QSize
 }
 
 
-void CubemapFboRender::initDataBuffer()
+void CubemapFBORender::initDataBuffer()
 {
     enum CubemapFaces{
                 Xp, Xn, Yp, Yn, Zp, Zn
@@ -185,7 +185,7 @@ void CubemapFboRender::initDataBuffer()
 }
 
 
-void CubemapFboRender::drawGeometry()
+void CubemapFBORender::drawGeometry()
 {
     m_shaderProgram.enableAttributeArray(m_vertexAttribId);
     m_shaderProgram.enableAttributeArray(m_cubemapCoordsAttribId);
@@ -202,7 +202,7 @@ void CubemapFboRender::drawGeometry()
     m_shaderProgram.disableAttributeArray(m_cubemapCoordsAttribId);
 }
 
-void CubemapFboRender::setImage(QImage img)
+void CubemapFBORender::setImage(QImage img)
 {
     qDebug() << "set image to texture" << img;
     m_equrectangleMap.destroy();
@@ -212,13 +212,13 @@ void CubemapFboRender::setImage(QImage img)
     update();
 }
 
-void CubemapFboRender::setYRotation(float _yRotation)
+void CubemapFBORender::setYRotation(float _yRotation)
 {
     qDebug() << "set y rotation" << _yRotation;
     m_yRotation = _yRotation;
 }
 
-void CubemapFboRender::setScheme(CubemapQuickRender::Scheme _scheme)
+void CubemapFBORender::setScheme(CubemapQuickRender::Scheme _scheme)
 {
     qDebug() << "set scheme" << (int)_scheme;
 }
