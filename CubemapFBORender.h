@@ -9,13 +9,9 @@
 #include <QVector3D>
 #include <QOpenGLTexture>
 #include <QImage>
+#include <QHash>
 
 #include "CubemapQuickRender.h"
-
-struct SchemeDataElement
-{
-    QVector3D screenPos, cubemapCoords;
-};
 
 class CubemapFBORender : public QObject, public QQuickFramebufferObject::Renderer, protected QOpenGLFunctions
 {
@@ -34,6 +30,8 @@ public slots:
     void setScheme(CubemapQuickRender::Scheme);
 
 private:
+    struct SchemeDataElement;
+
     void initDataBuffer();
     void drawGeometry();
     QOpenGLShaderProgram m_shaderProgram;
@@ -45,7 +43,9 @@ private:
     float m_yRotation;
 
     QVector<SchemeDataElement> m_schemeData;
+    QHash<int, int> m_schemeDataStartInd;
     QOpenGLTexture m_equrectangleMap;
+    CubemapQuickRender::Scheme m_scheme;
 };
 
 #endif // CUBEMAPFBORENDER_H

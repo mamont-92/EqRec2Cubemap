@@ -7,7 +7,7 @@ const float floatEpsilon = 0.00001f;
 
 
 CubemapQuickRender::CubemapQuickRender() : QQuickFramebufferObject(),
-    m_scheme(Scheme::VerticalLine)
+    m_scheme(Scheme::VerticalCross)
 {
 }
 

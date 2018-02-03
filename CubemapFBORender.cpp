@@ -10,10 +10,13 @@
 
 const int textureUint = 0;
 
-//using Scheme = CubemapQuickRender::Scheme;
+struct CubemapFBORender::SchemeDataElement
+{
+    QVector3D screenPos, cubemapCoords;
+};
 
 CubemapFBORender::CubemapFBORender(QObject *parent) : QObject(parent), QQuickFramebufferObject::Renderer(), QOpenGLFunctions(),
-    m_equrectangleMap(QOpenGLTexture::Target2D), m_yRotation(0.0f)
+    m_equrectangleMap(QOpenGLTexture::Target2D), m_yRotation(0.0f), m_scheme(CubemapQuickRender::Scheme::VerticalCross)
 {
     initializeOpenGLFunctions();
     m_shaderProgram.addCacheableShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/cubemapUnwrapFromEquRectmap.vert");
@@ -177,16 +180,24 @@ void CubemapFBORender::initDataBuffer()
 
     };
 
+    m_schemeDataStartInd.insert((int)CubemapQuickRender::Scheme::VerticalCross, m_schemeData.size());
     insertDataToSheme(verticalCross);
-    //insertDataToSheme(horizontalCross);
-    //insertDataToSheme(verticalLine);
-    //insertDataToSheme(horizontalLine);
 
+    m_schemeDataStartInd.insert((int)CubemapQuickRender::Scheme::HorizontalCross, m_schemeData.size());
+    insertDataToSheme(horizontalCross);
+
+    m_schemeDataStartInd.insert((int)CubemapQuickRender::Scheme::VerticalLine, m_schemeData.size());
+    insertDataToSheme(verticalLine);
+
+    m_schemeDataStartInd.insert((int)CubemapQuickRender::Scheme::HorizontalLine, m_schemeData.size());
+    insertDataToSheme(horizontalLine);
 }
 
 
 void CubemapFBORender::drawGeometry()
 {
+    const float schemeDataSize = 3*2*6; // two triangles and 6 faces
+
     m_shaderProgram.enableAttributeArray(m_vertexAttribId);
     m_shaderProgram.enableAttributeArray(m_cubemapCoordsAttribId);
 
@@ -196,7 +207,10 @@ void CubemapFBORender::drawGeometry()
 
     m_shaderProgram.setAttributeArray(m_vertexAttribId, vertexPtr, 3, sizeof(SchemeDataElement));
     m_shaderProgram.setAttributeArray(m_cubemapCoordsAttribId, coordsPtr, 3, sizeof(SchemeDataElement));
-    glDrawArrays(GL_TRIANGLES, 0, m_schemeData.size());
+
+    int startInd = m_schemeDataStartInd.value((int)m_scheme, -1);
+    if(startInd>=0)
+        glDrawArrays(GL_TRIANGLES, startInd, schemeDataSize);
 
     m_shaderProgram.disableAttributeArray(m_vertexAttribId);
     m_shaderProgram.disableAttributeArray(m_cubemapCoordsAttribId);
@@ -216,9 +230,12 @@ void CubemapFBORender::setYRotation(float _yRotation)
 {
     qDebug() << "set y rotation" << _yRotation;
     m_yRotation = _yRotation;
+    update();
 }
 
 void CubemapFBORender::setScheme(CubemapQuickRender::Scheme _scheme)
 {
     qDebug() << "set scheme" << (int)_scheme;
+    m_scheme = _scheme;
+    update();
 }
