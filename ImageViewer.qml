@@ -57,7 +57,7 @@ Rectangle {
                 anchors.fill: parent
                 drag.target: image
                 onReleased: image.Drag.drop()
-
+                cursorShape: Qt.SizeAllCursor
                 onWheel: {
 
                     if(wheel.angleDelta.y > 0)

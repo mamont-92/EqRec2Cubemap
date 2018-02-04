@@ -124,6 +124,7 @@ Window {
                         fillMode: Image.PreserveAspectFit
                         MouseArea{
                             anchors.fill: parent
+                            cursorShape: Qt.ClosedHandCursor
                             onClicked: {
                                 cubemapRender.scheme = model.scheme
                             }
