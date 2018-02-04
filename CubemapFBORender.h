@@ -46,6 +46,7 @@ private:
     QHash<int, int> m_schemeDataStartInd;
     QOpenGLTexture m_equrectangleMap;
     CubemapQuickRender::Scheme m_scheme;
+    QSize m_outSize;
 };
 
 #endif // CUBEMAPFBORENDER_H

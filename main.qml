@@ -108,28 +108,28 @@ Window {
 
             delegate:
                 Rectangle{
-                    border.color: (cubemapRender.scheme == model.scheme) ? "blue" : "gray"
-                    border.width: (cubemapRender.scheme == model.scheme) ? 2 : 1
-                    height: 64
-                    width: 64
+                border.color: (cubemapRender.scheme == model.scheme) ? "blue" : "gray"
+                border.width: (cubemapRender.scheme == model.scheme) ? 2 : 1
+                height: 64
+                width: 64
 
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    Layout.margins: 1
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.margins: 1
 
-                    Image {
+                Image {
+                    anchors.fill: parent
+                    anchors.margins: 2
+                    source: model.path
+                    fillMode: Image.PreserveAspectFit
+                    MouseArea{
                         anchors.fill: parent
-                        anchors.margins: 2
-                        source: model.path
-                        fillMode: Image.PreserveAspectFit
-                        MouseArea{
-                            anchors.fill: parent
-                            cursorShape: Qt.ClosedHandCursor
-                            onClicked: {
-                                cubemapRender.scheme = model.scheme
-                            }
+                        cursorShape: Qt.ClosedHandCursor
+                        onClicked: {
+                            cubemapRender.scheme = model.scheme
                         }
                     }
+                }
             }
 
 
@@ -168,25 +168,6 @@ Window {
         }
     }
 
-    Renderer{
-        id: cubemapRender
-        anchors.top : parent.top
-        anchors.bottom: images.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-        visible: false
-
-        textureFollowsItemSize: false
-
-        onImageLoaded: {
-            sourceView.reloadImage();
-        }
-
-        onImageReady: {
-            cubemapView.reloadImage();
-        }
-    }
-
     Item{
         id: mapViews
 
@@ -195,27 +176,45 @@ Window {
         anchors.left: parent.left
         anchors.right: parent.right
 
-        ImageViewer{
+        TransformViewer{
             id: sourceView
             anchors.top : parent.top
             anchors.left: parent.left
             anchors.right: parent.right
             height: parent.height / 2
 
-            imageProvider: "maps"
-            imageName: "equirect"
+            Image{
+                property string imageProvider: "maps"
+                property string imageName: "equirect"
+                anchors.fill:parent
+                id: cubeImage
+                fillMode: Image.PreserveAspectFit
+                source : "image://" + imageProvider+ "/" + imageName + Math.random();
+
+                function reloadImage(){
+                    source = "image://" + imageProvider+ "/" + imageName + Math.random();
+                }
+            }
+
         }
 
-        ImageViewer{
+        TransformViewer{
             id: cubemapView
             anchors.top : sourceView.bottom
+            anchors.bottom: parent.bottom
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.bottom: parent.bottom
 
-            imageProvider: "maps"
-            imageName: "cube"
+            Renderer{
+                id: cubemapRender
+                anchors.fill: parent
+                textureFollowsItemSize: false
+
+                onImageLoaded: {
+                    cubeImage.reloadImage();
+                }
+            }
+
         }
-
     }
 }

@@ -47,17 +47,9 @@ QPixmap MapsImageProvider::requestPixmap(const QString &id, QSize *size, const Q
     auto lowId = id.toLower();
 
     QImage resultImg;
-    if(lowId.indexOf("cube")>=0)
-        resultImg = m_cubemap;
-    else if(lowId.indexOf("equirect")>=0)
+    if(lowId.indexOf("equirect")>=0)
         resultImg = m_equirectMap;
     return !resultImg.isNull() ? QPixmap::fromImage(resultImg) : emptyPixmap();
-}
-
-void MapsImageProvider::setCubemap(QImage _img)
-{
-    QMutexLocker locker(&m_imageMutex);
-    m_cubemap = _img;
 }
 
 void MapsImageProvider::setEquirectangleMap(QImage _img)

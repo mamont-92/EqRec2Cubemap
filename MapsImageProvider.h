@@ -10,7 +10,6 @@ class QPixmap;
 class MapsImageProvider: public QQuickImageProvider
 {
 public:
-    void setCubemap(QImage);
     void setEquirectangleMap(QImage);
 
     QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize);

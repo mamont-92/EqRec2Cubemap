@@ -59,10 +59,12 @@ void CubemapFBORender::render() {
 }
 
 QOpenGLFramebufferObject * CubemapFBORender::createFramebufferObject(const QSize &size) {
+    qDebug() << "createFBO";
+    QSize outSize = m_outSize.isEmpty() ? QSize(64,64) : m_outSize;
     QOpenGLFramebufferObjectFormat format;
     format.setAttachment(QOpenGLFramebufferObject::CombinedDepthStencil);
     format.setSamples(4);
-    return new QOpenGLFramebufferObject(size, format);
+    return new QOpenGLFramebufferObject(outSize, format);
 }
 
 
@@ -222,6 +224,8 @@ void CubemapFBORender::setImage(QImage img)
     m_equrectangleMap.setData(img, QOpenGLTexture::DontGenerateMipMaps);
     m_equrectangleMap.setMagnificationFilter(QOpenGLTexture::Linear);
     m_equrectangleMap.setMinificationFilter(QOpenGLTexture::Linear);
+    m_outSize = img.size()*6;
+    invalidateFramebufferObject();
     update();
 }
 

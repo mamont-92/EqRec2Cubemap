@@ -28,8 +28,6 @@ CubemapQuickRender::Renderer * CubemapQuickRender::createRenderer() const
 void CubemapQuickRender::cubemapReady(QImage img)
 {
     m_cubemapImage = img;
-    MapsImageProvider::instance()->setCubemap(img);
-    emit imageReady();
 }
 
 void CubemapQuickRender::saveToFileCubemap(QString fileName)
