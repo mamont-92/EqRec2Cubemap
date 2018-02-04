@@ -16,7 +16,7 @@ struct CubemapFBORender::SchemeDataElement
 };
 
 CubemapFBORender::CubemapFBORender(QObject *parent) : QObject(parent), QQuickFramebufferObject::Renderer(), QOpenGLFunctions(),
-    m_equrectangleMap(QOpenGLTexture::Target2D), m_yRotation(0.0f), m_scheme(CubemapQuickRender::Scheme::VerticalCross)
+    m_equrectangleMap(QOpenGLTexture::Target2D), m_yRotation(0.0f), m_scheme(CubemapQuickRender::Scheme::VerticalCross), m_faceRealSize(0)
 {
     initializeOpenGLFunctions();
     m_shaderProgram.addCacheableShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/cubemapUnwrapFromEquRectmap.vert");
@@ -65,7 +65,6 @@ void CubemapFBORender::render() {
 }
 
 QOpenGLFramebufferObject * CubemapFBORender::createFramebufferObject(const QSize &size) {
-    qDebug() << "createFBO";
     QSize outSize = m_outSize.isEmpty() ? QSize(64,64) : m_outSize;
     QOpenGLFramebufferObjectFormat format;
     format.setAttachment(QOpenGLFramebufferObject::CombinedDepthStencil);
@@ -230,8 +229,7 @@ void CubemapFBORender::setImage(QImage img)
     m_equrectangleMap.setData(img, QOpenGLTexture::DontGenerateMipMaps);
     m_equrectangleMap.setMagnificationFilter(QOpenGLTexture::Linear);
     m_equrectangleMap.setMinificationFilter(QOpenGLTexture::Linear);
-    m_outSize = img.size()*6;
-    invalidateFramebufferObject();
+    m_faceRealSize = img.height();
     update();
 }
 
@@ -245,4 +243,13 @@ void CubemapFBORender::setScheme(CubemapQuickRender::Scheme _scheme)
 {
     m_scheme = _scheme;
     update();
+}
+
+void CubemapFBORender::synchronize(QQuickFramebufferObject *item)
+{
+    auto quickRenderPtr = (CubemapQuickRender*) item;
+    if(quickRenderPtr->renderSize() != m_outSize){
+        m_outSize = quickRenderPtr->renderSize();
+        invalidateFramebufferObject();
+    }
 }

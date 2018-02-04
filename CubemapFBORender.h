@@ -29,11 +29,15 @@ public slots:
     void setYRotation(float _yRotation);
     void setScheme(CubemapQuickRender::Scheme);
 
+protected:
+    void synchronize(QQuickFramebufferObject *item);
+
 private:
     struct SchemeDataElement;
 
     void initDataBuffer();
     void drawGeometry();
+
     QOpenGLShaderProgram m_shaderProgram;
     int m_vertexAttribId, m_cubemapCoordsAttribId;
     int m_matrixUniformId;
@@ -44,9 +48,10 @@ private:
 
     QVector<SchemeDataElement> m_schemeData;
     QHash<int, int> m_schemeDataStartInd; //(int)enum -> int
-    QHash<int, QSize> m_schemeProjectionSize;
+    QHash<int, QSize> m_schemeProjectionSize; //(int)enum -> QSize
     QOpenGLTexture m_equrectangleMap;
     CubemapQuickRender::Scheme m_scheme;
+    size_t m_faceRealSize;
     QSize m_outSize;
 };
 

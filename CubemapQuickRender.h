@@ -20,6 +20,8 @@ public:
     };
     Q_ENUMS(Scheme)
 
+    QSize renderSize();
+
     CubemapQuickRender();
     Renderer *createRenderer() const;
 
@@ -40,8 +42,11 @@ signals:
     void imageLoaded(QImage);
     void yRotationChanged(float);
 private:
+    void updateRenderSize();
     Scheme m_scheme;
     QImage m_cubemapImage;
+    QSize m_renderSize;
+    int m_faceSideSize;
     float m_yRotation;
 };
 
