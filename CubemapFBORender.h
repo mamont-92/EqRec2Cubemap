@@ -43,7 +43,8 @@ private:
     float m_yRotation;
 
     QVector<SchemeDataElement> m_schemeData;
-    QHash<int, int> m_schemeDataStartInd;
+    QHash<int, int> m_schemeDataStartInd; //(int)enum -> int
+    QHash<int, QSize> m_schemeProjectionSize;
     QOpenGLTexture m_equrectangleMap;
     CubemapQuickRender::Scheme m_scheme;
     QSize m_outSize;

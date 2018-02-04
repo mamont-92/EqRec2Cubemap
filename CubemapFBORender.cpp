@@ -31,6 +31,11 @@ CubemapFBORender::CubemapFBORender(QObject *parent) : QObject(parent), QQuickFra
     m_textureSamplerId = m_shaderProgram.uniformLocation("equrectangleTexture");
     m_yRotationUniformId = m_shaderProgram.uniformLocation("yRotation");
     initDataBuffer();
+
+    m_schemeProjectionSize.insert((int)CubemapQuickRender::Scheme::VerticalCross, QSize(3,4));
+    m_schemeProjectionSize.insert((int)CubemapQuickRender::Scheme::HorizontalCross, QSize(4,3));
+    m_schemeProjectionSize.insert((int)CubemapQuickRender::Scheme::VerticalLine, QSize(1,6));
+    m_schemeProjectionSize.insert((int)CubemapQuickRender::Scheme::HorizontalLine, QSize(6,1));
 }
 
 void CubemapFBORender::render() {
@@ -41,7 +46,8 @@ void CubemapFBORender::render() {
     glDisable(GL_DEPTH_TEST);
 
     QMatrix4x4 projModelViewMat;
-    projModelViewMat.ortho(0.0f,6.0f, 0.0f,6.0f, -1.0f, 1.0f);
+    auto projSize = m_schemeProjectionSize.value((int)m_scheme);
+    projModelViewMat.ortho(0.0f,projSize.width(), 0.0f,projSize.height(), -1.0f, 1.0f);
 
     if(m_equrectangleMap.isCreated()){
         m_shaderProgram.bind();
