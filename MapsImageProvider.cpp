@@ -45,11 +45,13 @@ QPixmap MapsImageProvider::requestPixmap(const QString &id, QSize *size, const Q
 {
     QMutexLocker locker(&m_imageMutex);
     auto lowId = id.toLower();
+
+    QImage resultImg;
     if(lowId.indexOf("cube")>=0)
-        return m_cubemap.isNull()? emptyPixmap() :QPixmap::fromImage(m_cubemap);
+        resultImg = m_cubemap;
     else if(lowId.indexOf("equirect")>=0)
-        return m_equirectMap.isNull()? emptyPixmap() : QPixmap::fromImage(m_equirectMap);
-    return emptyPixmap();
+        resultImg = m_equirectMap;
+    return !resultImg.isNull() ? QPixmap::fromImage(resultImg) : emptyPixmap();
 }
 
 void MapsImageProvider::setCubemap(QImage _img)

@@ -20,7 +20,6 @@ Rectangle {
     }
 
     function reloadImage(){
-        console.log("reload");
         image.source = "image://" + imageProvider+ "/" + imageName + Math.random();
     }
 
