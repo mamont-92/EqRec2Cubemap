@@ -10,8 +10,11 @@ class QPixmap;
 class MapsImageProvider: public QQuickImageProvider
 {
 public:
-    //QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize);
+    void setCubemap(QImage);
+    void setEquirectangleMap(QImage);
+
     QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize);
+
     static MapsImageProvider * instance();
 
     MapsImageProvider(MapsImageProvider const&) = delete;

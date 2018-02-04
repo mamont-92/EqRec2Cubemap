@@ -32,24 +32,34 @@ QPixmap MapsImageProvider::emptyPixmap(){
 
 MapsImageProvider * MapsImageProvider::instance()
 {
-    static auto ptr = new  MapsImageProvider; //it will delete qml engine
+    static auto ptr = new  MapsImageProvider; //it will be deleted by qml engine
     return ptr;
 }
 
 MapsImageProvider::MapsImageProvider() : QQuickImageProvider(QQuickImageProvider::Pixmap)
 {
-}
 
+}
 
 QPixmap MapsImageProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
 {
-    qDebug() << "req pixmap";
-    return emptyPixmap();
+    QMutexLocker locker(&m_imageMutex);
     auto lowId = id.toLower();
     if(lowId.indexOf("cube")>=0)
-        return QPixmap::fromImage(m_cubemap);
+        return m_cubemap.isNull()? emptyPixmap() :QPixmap::fromImage(m_cubemap);
     else if(lowId.indexOf("equirect")>=0)
-        return QPixmap::fromImage(m_equirectMap);
-    else
-        return emptyPixmap();
+        return m_equirectMap.isNull()? emptyPixmap() : QPixmap::fromImage(m_equirectMap);
+    return emptyPixmap();
+}
+
+void MapsImageProvider::setCubemap(QImage _img)
+{
+    QMutexLocker locker(&m_imageMutex);
+    m_cubemap = _img;
+}
+
+void MapsImageProvider::setEquirectangleMap(QImage _img)
+{
+    QMutexLocker locker(&m_imageMutex);
+    m_equirectMap = _img;
 }

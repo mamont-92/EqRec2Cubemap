@@ -2,6 +2,7 @@
 #include <QOpenGLFramebufferObjectFormat>
 #include <QDebug>
 #include <CubemapFBORender.h>
+#include "MapsImageProvider.h"
 
 const float floatEpsilon = 0.00001f;
 
@@ -9,7 +10,7 @@ const float floatEpsilon = 0.00001f;
 CubemapQuickRender::CubemapQuickRender() : QQuickFramebufferObject(),
     m_scheme(Scheme::VerticalCross)
 {
-    qDebug() << "<<ololol" << isTextureProvider();
+
 }
 
 CubemapQuickRender::Renderer * CubemapQuickRender::createRenderer() const
@@ -27,19 +28,20 @@ CubemapQuickRender::Renderer * CubemapQuickRender::createRenderer() const
 void CubemapQuickRender::cubemapReady(QImage img)
 {
     m_cubemapImage = img;
+    MapsImageProvider::instance()->setCubemap(img);
+    emit imageReady();
 }
 
 void CubemapQuickRender::saveToFileCubemap(QString fileName)
 {
-    qDebug() << "save to file" << fileName;
     if(!m_cubemapImage.isNull())
         m_cubemapImage.save(fileName);
 }
 
 void CubemapQuickRender::loadFromFileEquRectMap(QString fileName)
 {
-    qDebug() << "load from file" << fileName;
     QImage img(fileName);
+    MapsImageProvider::instance()->setEquirectangleMap(img);
     emit imageLoaded(img);
     update(); //enforce render updating and process it's queued signals
 }

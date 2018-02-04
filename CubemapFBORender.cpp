@@ -218,7 +218,6 @@ void CubemapFBORender::drawGeometry()
 
 void CubemapFBORender::setImage(QImage img)
 {
-    qDebug() << "set image to texture" << img;
     m_equrectangleMap.destroy();
     m_equrectangleMap.setData(img, QOpenGLTexture::DontGenerateMipMaps);
     m_equrectangleMap.setMagnificationFilter(QOpenGLTexture::Linear);
@@ -228,14 +227,12 @@ void CubemapFBORender::setImage(QImage img)
 
 void CubemapFBORender::setYRotation(float _yRotation)
 {
-    qDebug() << "set y rotation" << _yRotation;
     m_yRotation = _yRotation;
     update();
 }
 
 void CubemapFBORender::setScheme(CubemapQuickRender::Scheme _scheme)
 {
-    qDebug() << "set scheme" << (int)_scheme;
     m_scheme = _scheme;
     update();
 }

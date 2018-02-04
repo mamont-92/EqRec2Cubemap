@@ -39,6 +39,7 @@ signals:
     void schemeChanged(CubemapQuickRender::Scheme);
     void imageLoaded(QImage);
     void yRotationChanged(float);
+    void imageReady();
 
 private:
     Scheme m_scheme;

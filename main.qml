@@ -177,6 +177,14 @@ Window {
         visible: false
 
         textureFollowsItemSize: false
+
+        onImageLoaded: {
+            sourceView.reloadImage();
+        }
+
+        onImageReady: {
+            cubemapView.reloadImage();
+        }
     }
 
     Item{
@@ -195,7 +203,7 @@ Window {
             height: parent.height / 2
 
             imageProvider: "maps"
-            imageName: "empty"
+            imageName: "equirect"
         }
 
         ImageViewer{
@@ -206,7 +214,7 @@ Window {
             anchors.bottom: parent.bottom
 
             imageProvider: "maps"
-            imageName: "empty"
+            imageName: "cube"
         }
 
     }
