@@ -34,3 +34,6 @@ HEADERS += \
     CubemapQuickRender.h \
     CubemapFBORender.h \
     MapsImageProvider.h
+
+DISTFILES += \
+    README.md
