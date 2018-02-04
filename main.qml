@@ -205,13 +205,28 @@ Window {
             anchors.left: parent.left
             anchors.right: parent.right
 
-            Renderer{
-                id: cubemapRender
+            Item{
+                id: aspectFitItem
                 anchors.fill: parent
-                textureFollowsItemSize: false
+                property real aspectRatio: (height > 0) ? width / height : 1.0
 
-                onImageLoaded: {
-                    cubeImage.reloadImage();
+                Renderer{
+                    id: cubemapRender
+                    property real aspectRatio: (renderSize.height > 0) ? renderSize.width / renderSize.height : 1.0
+                    textureFollowsItemSize: false
+
+                    width: (cubemapRender.aspectRatio < aspectFitItem.aspectRatio) ? (parent.height * cubemapRender.aspectRatio) : parent.width
+                    height: (cubemapRender.aspectRatio < aspectFitItem.aspectRatio) ? parent.height : (parent.width / cubemapRender.aspectRatio)
+
+                    anchors.centerIn: parent
+
+                    onImageLoaded: {
+                        cubeImage.reloadImage();
+                    }
+
+                    onSchemeChanged: {
+                        cubemapView.resetItemTransform();
+                    }
                 }
             }
 

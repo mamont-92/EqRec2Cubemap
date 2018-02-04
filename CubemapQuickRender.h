@@ -11,6 +11,7 @@ class CubemapQuickRender : public QQuickFramebufferObject
     Q_OBJECT
     Q_PROPERTY(Scheme scheme READ scheme WRITE setScheme NOTIFY schemeChanged)
     Q_PROPERTY(float yRotation READ yRotation WRITE setYRotation NOTIFY yRotationChanged)
+    Q_PROPERTY(QSize renderSize READ renderSize NOTIFY renderSizeChanged)
 public:
     enum class Scheme{
         VerticalCross,
@@ -41,6 +42,7 @@ signals:
     void schemeChanged(CubemapQuickRender::Scheme);
     void imageLoaded(QImage);
     void yRotationChanged(float);
+    void renderSizeChanged(QSize);
 private:
     void updateRenderSize();
     Scheme m_scheme;

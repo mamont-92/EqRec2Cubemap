@@ -8,7 +8,7 @@ const float floatEpsilon = 0.00001f;
 
 
 CubemapQuickRender::CubemapQuickRender() : QQuickFramebufferObject(),
-    m_scheme(Scheme::VerticalCross)
+    m_scheme(Scheme::VerticalCross), m_renderSize(64,64)
 {
 
 }
@@ -88,8 +88,11 @@ void CubemapQuickRender::updateRenderSize()
         {(int)CubemapQuickRender::Scheme::VerticalLine, QSize(1,6)},
         {(int)CubemapQuickRender::Scheme::HorizontalLine, QSize(6,1)}
     };
-
-    m_renderSize = schemeSizes.value((int)m_scheme)*m_faceSideSize;
+    QSize newSize = schemeSizes.value((int)m_scheme)*m_faceSideSize;
+    if(m_renderSize  != newSize){
+        m_renderSize = newSize;
+        emit renderSizeChanged(m_renderSize);
+    }
 }
 
 
