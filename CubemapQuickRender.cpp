@@ -39,7 +39,7 @@ void CubemapQuickRender::saveToFileCubemap(QString fileName)
 void CubemapQuickRender::loadFromFileEquRectMap(QString fileName)
 {
     QImage img(fileName);
-    m_faceSideSize = img.height();
+    m_faceSideSize = img.height()/2;
     updateRenderSize();
     MapsImageProvider::instance()->setEquirectangleMap(img);
     emit imageLoaded(img);
@@ -86,7 +86,8 @@ void CubemapQuickRender::updateRenderSize()
         {(int)CubemapQuickRender::Scheme::VerticalCross, QSize(3,4)},
         {(int)CubemapQuickRender::Scheme::HorizontalCross, QSize(4,3)},
         {(int)CubemapQuickRender::Scheme::VerticalLine, QSize(1,6)},
-        {(int)CubemapQuickRender::Scheme::HorizontalLine, QSize(6,1)}
+        {(int)CubemapQuickRender::Scheme::HorizontalLine, QSize(6,1)},
+        {(int)CubemapQuickRender::Scheme::Horizontal3x2, QSize(3,2)}
     };
     QSize newSize = schemeSizes.value((int)m_scheme)*m_faceSideSize;
     if(m_renderSize  != newSize){

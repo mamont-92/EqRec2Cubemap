@@ -104,6 +104,12 @@ Window {
                     text: "horizontal line"
                     path: "media/CubemapLinearHor.png"
                 }
+
+                ListElement{
+                    scheme: Renderer.Horizontal3x2
+                    text: "horizontal 3x2"
+                    path: "media/CubemapHor3x2.png"
+                }
             }
 
             delegate:

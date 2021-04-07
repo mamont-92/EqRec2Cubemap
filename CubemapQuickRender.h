@@ -17,7 +17,8 @@ public:
         VerticalCross,
         HorizontalCross,
         VerticalLine,
-        HorizontalLine
+        HorizontalLine,
+        Horizontal3x2
     };
     Q_ENUMS(Scheme)
 

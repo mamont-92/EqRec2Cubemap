@@ -36,6 +36,7 @@ CubemapFBORender::CubemapFBORender(QObject *parent) : QObject(parent), QQuickFra
     m_schemeProjectionSize.insert((int)CubemapQuickRender::Scheme::HorizontalCross, QSize(4,3));
     m_schemeProjectionSize.insert((int)CubemapQuickRender::Scheme::VerticalLine, QSize(1,6));
     m_schemeProjectionSize.insert((int)CubemapQuickRender::Scheme::HorizontalLine, QSize(6,1));
+    m_schemeProjectionSize.insert((int)CubemapQuickRender::Scheme::Horizontal3x2, QSize(3,2));
 }
 
 void CubemapFBORender::render() {
@@ -140,7 +141,6 @@ void CubemapFBORender::initDataBuffer()
         { Zn, 7,3,2,6, 0,5}
     };
 
-
     QVector<CubemapSchemeElement> horizontalLine = {
         { Xp, 6,2,1,5, 0,0},
         { Xn, 3,7,4,0, 1,0},
@@ -150,6 +150,14 @@ void CubemapFBORender::initDataBuffer()
         { Zn, 7,3,2,6, 5,0}
     };
 
+    QVector<CubemapSchemeElement> horizontal3x2 = {
+        { Xp, 6,2,1,5, 0,0},
+        { Zn, 7,3,2,6, 1,0},
+        { Yp, 1,2,3,0, 2,0},
+        { Xn, 4,0,3,7, 0,1},
+        { Zp, 5,1,0,4, 1,1},
+        { Yn, 6,5,4,7, 2,1}
+    };
 
 
     auto insertDataToSheme = [&cubePoints, &faceUnwrapPoints, this]
@@ -198,6 +206,9 @@ void CubemapFBORender::initDataBuffer()
 
     m_schemeDataStartInd.insert((int)CubemapQuickRender::Scheme::HorizontalLine, m_schemeData.size());
     insertDataToSheme(horizontalLine);
+
+    m_schemeDataStartInd.insert((int)CubemapQuickRender::Scheme::Horizontal3x2, m_schemeData.size());
+    insertDataToSheme(horizontal3x2);
 }
 
 

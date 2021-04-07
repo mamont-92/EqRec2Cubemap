@@ -9,5 +9,6 @@
         <file>shaders/cubemapUnwrapFromEquRectmap.vert</file>
         <file>NumParameter.qml</file>
         <file>TransformViewer.qml</file>
+        <file>media/CubemapHor3x2.png</file>
     </qresource>
 </RCC>
